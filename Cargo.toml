@@ -1,0 +1,32 @@
+[package]
+name = "embossers"
+version = "0.1.4"
+edition = "2021"
+description = "EMBOSS-inspired bioinformatics utilities (Rust) — includes a feature-complete `complex` subcommand."
+license = "MIT OR Apache-2.0"
+repository = "https://example.com/embossers"
+homepage = "https://example.com/embossers"
+documentation = "https://docs.rs/embossers"
+keywords = ["emboss", "bioinformatics", "linguistic-complexity", "kmer", "CLI"]
+categories = ["science", "command-line-utilities"]
+readme = "README.md"
+
+[lib]
+name = "embossers"
+path = "src/lib.rs"
+crate-type = ["rlib"]
+
+[[bin]]
+name = "emboss"
+path = "src/bin/emboss.rs"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+anyhow = "1"
+thiserror = "1"
+csv = "1"
+rand = "0.8"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
