@@ -75,3 +75,20 @@
 ### Fixed
 - `seqmatchall` CLI: avoid moving `MatcherParams` by cloning into `SeqMatchAllParams` so it can be reused for per-pair files.
 - `matcher`: removed stray unused variables and silenced minor warnings in local coordinate computation.
+
+## [0.1.24] - 2025-10-23
+### Added
+- **supermatcher**: seed-and-extend local alignments (word hits + SW) across two sets.
+- **wordfinder**: query vs set, seed-and-extend local alignments (word hits + SW).
+- **wordmatch**: exact-match regions of minimum word size between two sequences; optional GFF outputs.
+- **seqalign**: extend an existing multiple alignment with sequences by consensus-guided profile alignment.
+
+## [0.1.25] - 2025-10-23
+### Fixed
+- `seqalign`: replaced nonexistent `EmbossersError::ParseError` with `InvalidSequence` and tidied warnings (unused param, needless `mut`).
+
+## [0.1.26] - 2025-10-23
+### Added
+- **domainalign**: progressive, consensus-guided multiple alignment (EMBASSY domalign-like), via iterative global alignment to consensus.
+- **domainrep**: within-sequence repeat finder using k-mer seeding and maximal right extension; reports repeat blocks and optional GFF.
+- **oalistat**: alignment statistics for gapped FASTA / simple alignment files (sequences, columns, %gap, pairwise identity, conserved columns).

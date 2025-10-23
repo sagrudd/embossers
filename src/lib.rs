@@ -55,3 +55,28 @@ pub use matcher::{MatcherParams, MatcherHit, matcher};
 
 // seqmatchall exports
 pub use seqmatchall::{SeqMatchAllParams, SeqMatchAllEntry, seqmatchall};
+
+pub mod supermatcher;
+pub mod wordfinder;
+pub mod wordmatch;
+pub mod seqalign;
+
+// supermatcher exports
+pub use supermatcher::{SuperMatcherParams, supermatcher};
+// wordfinder exports
+pub use wordfinder::wordfinder;
+// wordmatch exports
+pub use wordmatch::{WordMatchParams, WordMatch, wordmatch};
+// seqalign exports
+pub use seqalign::seqalign_extend;
+
+pub mod oalistat;
+pub mod domainrep;
+pub mod domainalign;
+
+// oalistat exports
+pub use oalistat::{OaStats, oalistat};
+// domainrep exports
+pub use domainrep::{DomainRepParams, RepeatBlock, domainrep};
+// domainalign exports
+pub use domainalign::{DomainAlignParams, domainalign};
