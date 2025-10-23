@@ -1,8 +1,23 @@
 //! Needleman–Wunsch global alignment with affine gaps (EMBOSS `needle`).
+//!
+//! We implement the classic affine‑gap variant with three DP matrices and
+//! standard traceback. The last cell `(n,m)` holds the optimal global score.
+//!
+//! ### Examples
+//! ```rust
+//! use embossers::{needle, NeedleParams, WaterMatrix};
+//! let p = NeedleParams{ matrix: WaterMatrix::Dna{ match_score: 1, mismatch: -1 }, ..Default::default() };
+//! let aln = needle("GATTACA", "GCATGCU", &p).unwrap();
+//! assert!(aln.align_a.len() == aln.align_b.len());
+//! ```
+//!
 use crate::common::{EmbossersError, WaterMatrix, blosum62_score, equals_case_insensitive};
 
 /// Parameters for `needle` (global alignment).
+
 #[derive(Clone, Debug)]
+/// Configuration for global alignment (Needleman–Wunsch).
+/// See [`WaterParams`] for analogous fields.
 pub struct NeedleParams {
     /// Scoring matrix to use.
     pub matrix: WaterMatrix,
@@ -27,6 +42,7 @@ impl Default for NeedleParams {
 
 /// A global alignment computed by Needleman–Wunsch with affine gaps.
 #[derive(Clone, Debug)]
+/// Output of a Needleman–Wunsch alignment.
 pub struct NeedleAlignment {
     /// Total alignment **score** (integer, scaled as provided).
     pub score: i32,
@@ -43,6 +59,10 @@ pub struct NeedleAlignment {
 }
 
 /// Run Needleman–Wunsch global alignment with affine gaps.
+
+/// Compute a global alignment between `a` and `b` using Needleman–Wunsch.
+///
+/// Returns aligned strings, a CIGAR summary, and identity/gap statistics.
 pub fn needle(a: &str, b: &str, params: &NeedleParams) -> Result<NeedleAlignment, EmbossersError> {
     if a.is_empty() || b.is_empty() {
         return Err(EmbossersError::InvalidSequence("empty sequence"));

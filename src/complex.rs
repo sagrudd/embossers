@@ -1,9 +1,50 @@
 //! Linguistic sequence complexity (EMBOSS `complex`).
+//!
+//! This module computes *linguistic complexity* by sliding a window across
+//! input sequences and, for each k in `[jmin, jmax]`, measuring the fraction
+//! of distinct k‑mers observed relative to the theoretical maximum. The final
+//! complexity is the product of the per‑k fractions averaged over windows.
+//!
+//! ### Definition
+//! For a window `W` of length `L` and a k‑mer size `k`,
+//! ```text
+//! U_k(W) = |distinct k-mers in W restricted to A,C,G,T| / min(4^k, L-k+1)
+//! ```
+//! The **linguistic complexity** is `∏_{k=jmin..jmax} mean_W U_k(W)`.
+//!
+//! ### Simulations
+//! If `sim > 0`, random DNA windows are generated either uniformly or using
+//! empirical base frequencies, and the same U_k statistics are computed to
+//! give a baseline (mean ± sd) for comparison.
+//!
+//! ### Complexity & Performance
+//! Time is `O(N * (jmax-jmin+1))` per window; k‑mer counting uses a hashed
+//! slice view and is fast for typical `j ≤ 12` and `L ≤ 1e5`.
+//!
+//! ### Examples
+//! ```rust
+//! use embossers::{ComplexOptions, compute_complexity};
+//! let opts = ComplexOptions { lwin: 8, step: 4, jmin: 2, jmax: 4, sim: 0, freq_weighted_sim: false };
+//! let (c, rows) = compute_complexity("ACGTACGT", &opts).unwrap();
+//! assert!(c > 0.0);
+//! assert!(!rows.is_empty());
+//! ```
+//!
 use std::collections::HashSet;
 use crate::common::EmbossersError;
 
 /// Options controlling the linguistic complexity computation.
+
 #[derive(Clone, Debug)]
+/// Options that control sliding window size, step and the k‑mer range.
+///
+/// * `lwin` — window length (L). If an input sequence is shorter than `lwin`,
+///   a single window covering the whole sequence is used.
+/// * `step` — slide increment between consecutive windows.
+/// * `jmin`, `jmax` — inclusive bounds for k‑mer sizes considered.
+/// * `sim` — number of Monte‑Carlo simulations for a baseline (0 disables).
+/// * `freq_weighted_sim` — if `true`, simulations match empirical A/C/G/T
+///   frequencies; otherwise uniform 0.25 for each base.
 pub struct ComplexOptions {
     /// Sliding window length (L). If the sequence is shorter than `lwin`, one
     /// window covering the entire sequence is used.
@@ -29,6 +70,7 @@ impl Default for ComplexOptions {
 
 /// Result rows for a Uj table.
 #[derive(Clone, Debug)]
+/// A single result line for a given `j` (k‑mer length).
 pub struct UjRow {
     /// Word length (k).
     pub j: usize,
@@ -41,11 +83,19 @@ pub struct UjRow {
 }
 
 /// Compute linguistic complexity for a single sequence with options.
+
+/// Compute linguistic complexity for **one** sequence and return the scalar
+/// complexity along with per‑k rows.
+///
+/// See [`compute_complexity_multi`] for a multi‑sequence aggregate.
 pub fn compute_complexity(seq: &str, opts: &ComplexOptions) -> Result<(f64, Vec<UjRow>), EmbossersError> {
     compute_complexity_multi([seq].into_iter(), opts)
 }
 
 /// Compute linguistic complexity across **multiple sequences** collectively.
+
+/// Compute linguistic complexity across multiple sequences collectively by
+/// concatenating their windows for the per‑k means used in the product.
 pub fn compute_complexity_multi<'a>(
     seqs: impl IntoIterator<Item = &'a str>,
     opts: &ComplexOptions
@@ -147,6 +197,9 @@ pub fn compute_complexity_multi<'a>(
 
 /// Compute the maximum possible vocabulary size for `j`-mers in a window of
 /// length `l`, as `min(4^j, l - j + 1)`.
+
+/// The theoretical maximum number of distinct k‑mers `min(4^j, l-j+1)` for a
+/// window of length `l`. Returns 0 when `l < j`.
 pub fn max_vocab(l: usize, j: usize) -> usize {
     if l < j { return 0; }
     let pow = 4usize.saturating_pow(j as u32);

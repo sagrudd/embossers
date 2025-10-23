@@ -1,4 +1,27 @@
-//! Common types and helpers shared by embossers modules.
+//! Common helpers shared by the algorithms: minimal FASTA parsing, scoring
+//! configuration, and a compact BLOSUM62 implementation.
+//!
+//! ## FASTA
+//! The parser is intentionally permissive and suitable for small/medium files
+//! and tests. It supports multi-record inputs and keeps all non‑alphabetic
+//! symbols as‑is (conversion to uppercase only).
+//!
+//! ## Scoring
+//! The [`WaterMatrix`] enum describes either a simple DNA match/mismatch
+//! scheme or the built‑in BLOSUM62 table for proteins.
+//!
+//! ## Examples
+//! ```rust,no_run
+//! use embossers::parse_fasta;
+//! let recs = parse_fasta(r#">seq
+//! ACGT
+//! >p
+//! PAWHEAE
+//! "#);
+//! assert_eq!(recs.len(), 2);
+//! assert_eq!(recs[0].seq, "ACGT");
+//! ```
+//!
 
 /// Errors that can be returned by the algorithms in this crate.
 #[derive(thiserror::Error, Debug)]
@@ -16,6 +39,7 @@ pub enum EmbossersError {
 
 /// A single FASTA sequence (identifier and uppercase sequence letters).
 #[derive(Clone, Debug)]
+/// A simple in-memory FASTA record parsed by [`parse_fasta`].
 pub struct FastaRecord {
     /// Identifier from the FASTA header (text after '>').
     pub id: String,
@@ -24,6 +48,22 @@ pub struct FastaRecord {
 }
 
 /// Parse a minimal FASTA string into records (tolerant of whitespace).
+
+/// Parse a minimal FASTA string into a vector of [`FastaRecord`].
+///
+/// *Lines starting with `>` start a new record.* All other lines are appended
+/// (without spaces) to the current sequence. Sequences are uppercased.
+///
+/// ## Panics
+/// This function does not panic.
+///
+/// ## Examples
+/// ```rust,no_run
+/// use embossers::parse_fasta;
+/// let recs = parse_fasta(r#">id\nAC\nGT\n"#);
+/// assert_eq!(recs[0].id, "id");
+/// assert_eq!(recs[0].seq, "ACGT");
+/// ```
 pub fn parse_fasta(text: &str) -> Vec<FastaRecord> {
     let mut out: Vec<FastaRecord> = vec![];
     let mut id = String::new();
@@ -42,6 +82,11 @@ pub fn parse_fasta(text: &str) -> Vec<FastaRecord> {
 
 /// Scoring scheme enum shared by `water` and `needle`.
 #[derive(Clone, Debug)]
+
+/// Scoring matrix selection used by both local and global aligners.
+///
+/// - For DNA, supply integer `match_score` and `mismatch` values.
+/// - For proteins, use the built‑in BLOSUM62.
 pub enum WaterMatrix {
     /// DNA scoring: match/mismatch integer scoring.
     Dna { match_score: i32, mismatch: i32 },
@@ -50,6 +95,10 @@ pub enum WaterMatrix {
 }
 
 /// BLOSUM62 look-up using a fixed 20x20 matrix (A,R,N,D,C,Q,E,G,H,I,L,K,M,F,P,S,T,W,Y,V).
+
+/// Return the BLOSUM62 score for the given amino acids. Unknowns score −4.
+///
+/// This is a compact, fixed lookup (no external files).
 pub fn blosum62_score(x: char, y: char) -> i32 {
     fn idx(c: char) -> Option<usize> {
         match c.to_ascii_uppercase() {
@@ -90,6 +139,8 @@ pub fn blosum62_score(x: char, y: char) -> i32 {
 }
 
 /// Count matches case-insensitively; used for identity %. 
+
+/// Case‑insensitive equality used when computing identity % in alignments.
 pub fn equals_case_insensitive(a: char, b: char) -> bool {
     a.to_ascii_uppercase() == b.to_ascii_uppercase()
 }

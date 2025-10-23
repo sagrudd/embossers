@@ -1,3 +1,4 @@
+//! CLI subcommand implementation. Use via `emboss complex`.
 use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::PathBuf;

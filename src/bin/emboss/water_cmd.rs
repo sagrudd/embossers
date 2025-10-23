@@ -1,3 +1,4 @@
+//! CLI subcommand implementation. Use via `emboss water`.
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;

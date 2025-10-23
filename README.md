@@ -1,47 +1,104 @@
 # embossers
 
-EMBOSS-inspired bioinformatics utilities in Rust. This crate includes a CLI binary **`emboss`** with:
+EMBOSS-inspired bioinformatics utilities in Rust. This crate provides a library **and** a CLI binary **`emboss`** implementing:
 
 - **`complex`** — linguistic sequence complexity (EMBOSS `complex`)
 - **`water`** — Smith–Waterman local alignment with affine gaps (EMBOSS `water`) — alias **`waters`**
 - **`needle`** — Needleman–Wunsch global alignment with affine gaps (EMBOSS `needle`)
 
-Each subcommand is maintained in its own file under `src/bin/emboss/` and each algorithm is in its own module under `src/`.
+Each subcommand lives in `src/bin/emboss/`, and each algorithm lives in `src/`.
 
-## Install
+---
 
-```toml
-# Cargo.toml
-embossers = "0.1"
+## Build & Install
+
+### Prerequisites
+- Rust toolchain (stable). If needed: <https://rustup.rs/>
+
+### Build in place
+```bash
+git clone <your-repo> embossers
+cd embossers
+cargo build --release
 ```
 
-## CLI usage
-
-```text
-# complex
-emboss complex --sequence input.fasta --lwin 100 --step 5 --jmin 4 --jmax 6 --outfile complex.tsv
-
-# water (local alignment)
-emboss water --asequence a.fasta --bsequence b.fasta --matrix blosum62 --gapopen 10 --gapextend 0.5 --outfile water.txt
-
-# needle (global alignment)
-emboss needle --asequence a.fasta --bsequence b.fasta --matrix dna --match-score 1 --mismatch -1 --gapopen 10 --gapextend 0.5 --outfile needle.txt
+### Run without installing
+```bash
+cargo run --bin emboss -- --help
 ```
 
-## Library quick start
+### Install the CLI
+```bash
+cargo install --path .
+# now `emboss` is on your PATH
+```
+
+---
+
+## CLI Usage
+
+### `complex` — linguistic complexity
+Compute complexity per FASTA record (windows aggregated per record).
+
+```bash
+# One or more FASTA files
+emboss complex   --sequence genome1.fa genome2.fa   --lwin 100 --step 5 --jmin 4 --jmax 6   --outfile complex.tsv
+
+# Read FASTA from stdin
+cat seqs.fa | emboss complex --lwin 200 --step 10 --jmin 3 --jmax 8 --outfile out.tsv
+
+# Include random simulations with empirical base frequencies
+emboss complex --sequence seqs.fa --sim 50 --freq --outfile complex.tsv
+```
+
+**Output:** a TSV summary with columns: `id, windows, lwin, step, jmin, jmax, complexity`.
+
+---
+
+### `water` — Smith–Waterman local alignment
+```bash
+emboss water   --asequence a.fa   --bsequence b.fa   --matrix blosum62   --gapopen 10.0 --gapextend 0.5   --outfile water.txt
+
+# Alias also works
+emboss waters --asequence a.fa --bsequence b.fa --outfile water.txt
+
+# DNA scoring variant
+emboss water --asequence a.fa --bsequence b.fa --matrix dna --match-score 2 --mismatch -1
+```
+
+**Output:** human-readable alignment file with score, identity/gaps, CIGAR and 60‑column blocks.
+
+---
+
+### `needle` — Needleman–Wunsch global alignment
+```bash
+emboss needle   --asequence a.fa   --bsequence b.fa   --matrix dna --match-score 1 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --outfile needle.txt
+
+# Protein scoring with BLOSUM62
+emboss needle --asequence a.fa --bsequence b.fa --matrix blosum62 --gapopen 10 --gapextend 0.5
+```
+
+**Output:** human-readable alignment file similar to `water`.
+
+---
+
+## Library Quick Start
 
 ```rust
 use embossers::{ComplexOptions, compute_complexity, water, WaterParams, WaterMatrix, needle, NeedleParams};
 
-let (c, _rows) = compute_complexity("ACGTACGT", &ComplexOptions::default()).unwrap();
-
-let wparams = WaterParams{ matrix: WaterMatrix::Blosum62, ..Default::default() };
-let w = water("PAWHEAE", "HEAGAWGHEE", &wparams).unwrap();
-
-let nparams = NeedleParams{ matrix: WaterMatrix::Dna{ match_score: 1, mismatch: -1 }, ..Default::default() };
-let n = needle("GATTACA", "GCATGCU", &nparams).unwrap();
+let (c, rows) = compute_complexity("ACGTACGT", &ComplexOptions::default()).unwrap();
+let w = water("PAWHEAE", "HEAGAWGHEE", &WaterParams{ matrix: WaterMatrix::Blosum62, ..Default::default() }).unwrap();
+let n = needle("GATTACA", "GCATGCU", &NeedleParams{ matrix: WaterMatrix::Dna{ match_score: 1, mismatch: -1 }, ..Default::default() }).unwrap();
 ```
 
-## SemVer
+---
 
-Follows [Semantic Versioning](https://semver.org/). Current version: **v0.1.10** (2025-10-23).
+## Compatibility Notes
+- Scoring and defaults are chosen to be close to EMBOSS. Output formatting is readable and compact; for byte‑for‑byte parity with EMBOSS reports, open an issue.
+
+## License
+MIT OR Apache‑2.0
+
+## Version
+**v0.1.12** (2025‑10‑23)

@@ -1,8 +1,33 @@
 //! Smith–Waterman local alignment with affine gaps (EMBOSS `water`).
+//!
+//! This is a standard 3‑matrix implementation (`H`,`E`,`F`) with integer
+//! scoring and fractional gap penalties supported via a scaling factor.
+//!
+//! - `H` — best score at (i,j)
+//! - `E` — gap in A (left moves)
+//! - `F` — gap in B (up moves)
+//!
+//! The algorithm performs local alignment: negative scores are clamped to 0
+//! and traceback starts from the global maximum. Traceback emits `M`/`I`/`D`
+//! and we also compute identity and gap percentages.
+//!
+//! ### Examples
+//! ```rust
+//! use embossers::{water, WaterParams, WaterMatrix};
+//! let p = WaterParams{ matrix: WaterMatrix::Blosum62, ..Default::default() };
+//! let aln = water("PAWHEAE", "HEAGAWGHEE", &p).unwrap();
+//! assert!(aln.score > 0 && aln.align_a.len() == aln.align_b.len());
+//! ```
+//!
 use crate::common::{EmbossersError, WaterMatrix, blosum62_score, equals_case_insensitive};
 
 /// Parameters for `water` Smith–Waterman.
+
 #[derive(Clone, Debug)]
+/// Configuration for local alignment.
+///
+/// Use `scale` to convert fractional penalties to integers (e.g. 2.0 makes
+/// 0.5→1). EMBOSS‑like defaults are provided via [`Default`].
 pub struct WaterParams {
     /// Scoring matrix to use.
     pub matrix: WaterMatrix,
@@ -27,6 +52,7 @@ impl Default for WaterParams {
 
 /// A local alignment computed by Smith–Waterman with affine gaps.
 #[derive(Clone, Debug)]
+/// Output of a Smith–Waterman alignment.
 pub struct WaterAlignment {
     /// Total alignment **score** (integer, scaled as provided).
     pub score: i32,
@@ -47,6 +73,10 @@ pub struct WaterAlignment {
 }
 
 /// Run Smith–Waterman local alignment with affine gaps.
+
+/// Compute a local alignment between `a` and `b` using Smith–Waterman.
+///
+/// Returns aligned strings, score, ranges, a CIGAR summary, and basic stats.
 pub fn water(a: &str, b: &str, params: &WaterParams) -> Result<WaterAlignment, EmbossersError> {
     if a.is_empty() || b.is_empty() {
         return Err(EmbossersError::InvalidSequence("empty sequence"));

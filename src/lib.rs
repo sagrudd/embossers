@@ -1,16 +1,25 @@
 //! # embossers
 //!
-//! EMBOSS-inspired utilities implemented in Rust.
+//! A small, batteries‑included crate that reimplements several **EMBOSS** utilities
+//! in pure Rust with a simple CLI. It’s designed for teaching, scripting, and
+//! reproducible pipelines where a lightweight dependency helps.
 //!
-//! Algorithms (library + CLI):
-//! - **`complex`**: Linguistic sequence complexity (EMBOSS `complex`)
-//! - **`water`**: Smith–Waterman local alignment with affine gaps (EMBOSS `water`)
-//! - **`needle`**: Needleman–Wunsch global alignment with affine gaps (EMBOSS `needle`)
+//! ## Modules
+//! - [`complex`] — linguistic sequence complexity (EMBOSS **`complex`**).
+//! - [`water`]   — Smith–Waterman local alignment with affine gaps (EMBOSS **`water`**).
+//! - [`needle`]  — Needleman–Wunsch global alignment with affine gaps (EMBOSS **`needle`**).
 //!
-//! Each module is fully `rustdoc`-documented and tested with small examples.
+//! ## CLI
+//! The `emboss` binary provides subcommands that mirror EMBOSS. See
+//! `emboss --help` and subcommand help, or the README for full examples.
 //!
-//! See the `emboss` binary for CLI usage; each subcommand is maintained in
-//! its own Rust file under `src/bin/emboss/`.
+//! ## Example (library)
+//! ```rust
+//! use embossers::{ComplexOptions, compute_complexity, water, WaterParams, WaterMatrix};
+//! let (c, _rows) = compute_complexity("ACGTACGT", &ComplexOptions::default()).unwrap();
+//! let w = water("PAWHEAE", "HEAGAWGHEE", &WaterParams{ matrix: WaterMatrix::Blosum62, ..Default::default() }).unwrap();
+//! assert!(c > 0.0 && !w.align_a.is_empty());
+//! ```
 //!
 #![cfg_attr(docsrs, feature(doc_cfg, doc_auto_cfg))]
 

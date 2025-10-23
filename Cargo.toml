@@ -1,6 +1,6 @@
 [package]
 name = "embossers"
-version = "0.1.10"
+version = "0.1.12"
 edition = "2021"
 description = "EMBOSS-inspired bioinformatics utilities (Rust): complex (linguistic complexity), water (Smith–Waterman), needle (Needleman–Wunsch)."
 license = "MIT OR Apache-2.0"

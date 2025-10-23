@@ -17,3 +17,12 @@
 ## [0.1.10] - 2025-10-23
 ### Fixed
 - Adjusted `src/bin/emboss.rs` to use `#[path = "emboss/..." ]` module attributes so subcommands in `src/bin/emboss/` compile correctly.
+
+## [0.1.11] - 2025-10-23
+### Documentation
+- Expanded rustdoc throughout (`common`, `complex`, `water`, `needle`) with algorithm notes, examples, and complexity.
+- README updated with build instructions and usage examples for all subcommands.
+
+## [0.1.12] - 2025-10-23
+### Fixed
+- Escaped/adjusted doc examples in `src/common.rs` to avoid unescaped quotes/newline escapes that some compilers interpret during attribute expansion.
