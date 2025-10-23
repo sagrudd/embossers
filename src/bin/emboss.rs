@@ -28,6 +28,10 @@ enum Command {
     Est2genome(est2genome_cmd::Est2GenomeCmd),
     /// Many-to-many global alignments (EMBOSS `needleall`).
     Needleall(needleall_cmd::NeedleAllCmd),
+    /// Global alignment using Myers–Miller (linear space). EMBOSS `stretcher`.
+    Stretcher(stretcher_cmd::StretcherCmd),
+    /// SIM4-like spliced EST→genome alignment. EMBOSS `esim4`.
+    Esim4(esim4_cmd::Esim4Cmd),
 }
 
 #[path = "emboss/complex_cmd.rs"] mod complex_cmd;
@@ -35,6 +39,8 @@ enum Command {
 #[path = "emboss/needle_cmd.rs"] mod needle_cmd;
 #[path = "emboss/est2genome_cmd.rs"] mod est2genome_cmd;
 #[path = "emboss/needleall_cmd.rs"] mod needleall_cmd;
+#[path = "emboss/stretcher_cmd.rs"] mod stretcher_cmd;
+#[path = "emboss/esim4_cmd.rs"] mod esim4_cmd;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -44,5 +50,7 @@ fn main() -> Result<()> {
         Command::Needle(cmd) => needle_cmd::run(cmd),
         Command::Est2genome(cmd) => est2genome_cmd::run(cmd),
         Command::Needleall(cmd) => needleall_cmd::run(cmd),
+        Command::Stretcher(cmd) => stretcher_cmd::run(cmd),
+        Command::Esim4(cmd) => esim4_cmd::run(cmd),
     }
 }

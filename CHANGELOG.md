@@ -39,3 +39,26 @@
 ### Fixed
 - `needleall` CLI: corrected `sanitize()` (replaced Pythonic `in` with `matches!`).
 - `est2genome`: silenced an unused parameter warning by prefixing with `_`.
+
+## [0.1.16] - 2025-10-23
+### Added
+- **stretcher**: Myers–Miller/Hirschberg-style global alignment (linear space) with affine gaps.
+  Library function `stretcher()` and CLI `emboss stretcher`.
+
+## [0.1.17] - 2025-10-23
+### Fixed
+- `stretcher`: removed unused variables/assignments, corrected minor style warnings, and renamed internal variables to snake_case.
+
+## [0.1.18] - 2025-10-23
+### Added
+- **esim4**: SIM4-like spliced EST→genome alignment built on top of `est2genome`, with strand auto-detection, expanded splice site classification (GT-AG, GC-AG, AT-AC), exon table, and CLI subcommand `emboss esim4`.
+
+## [0.1.19] - 2025-10-23
+### Fixed
+- `stretcher`: corrected identifier shadowing introduced by a prior refactor; reimplemented small-DP branch with distinct matrix names to avoid clashing with `m` (length). Also removed stray unused variable.
+- `esim4`: removed an unused import and tiny style cleanups.
+
+## [0.1.20] - 2025-10-23
+### Fixed
+- `stretcher`: restored missing fallback `NeedleParams` variable (`np`) used when problem size is small.
+- `esim4`: renamed splice enum variants to UpperCamelCase (`GtAg`, `GcAg`, `AtAc`) and updated matches to silence warnings.

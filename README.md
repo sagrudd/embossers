@@ -73,7 +73,18 @@ emboss water --asequence a.fa --bsequence b.fa --matrix dna --match-score 2 --mi
 ### `needle` — Needleman–Wunsch global alignment
 ---
 
-### `needleall` — many-to-many global alignments
+### `needleall`
+---
+
+### `stretcher` — global alignment (linear-space, Myers–Miller)
+Use a divide‑and‑conquer Needleman–Wunsch with affine gaps. Memory stays near `O(n+m)`.
+
+```bash
+emboss stretcher   --asequence a.fa   --bsequence b.fa   --matrix dna --match-score 1 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --fallback-threshold 256   --outfile stretcher.txt
+```
+
+**Output:** human-readable alignment file with score, identity/gaps, and CIGAR.
+ — many-to-many global alignments
 Run Needleman–Wunsch alignments for **every pair** across two multi‑FASTA sets.
 Outputs a summary TSV and (optionally) per‑pair alignment files.
 
@@ -85,7 +96,20 @@ emboss needleall   --aseqs setA.fa   --bseqs setB.fa   --matrix dna --match-scor
 
 ---
 
-### `est2genome` — splice-aware EST ↔ genome alignment (semi‑global)
+### `est2genome`
+---
+
+### `esim4` — SIM4-like spliced EST ↔ genome alignment
+A strand-aware wrapper around `est2genome` that tries both forward and reverse‑complement
+(by default), classifies splice sites (GT‑AG, GC‑AG, AT‑AC), applies splice bonuses, and
+reports an exon table.
+
+```bash
+emboss esim4   --genome genome.fa   --est read.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --intron-min 20 --splice-bonus 5   --accept-gc-ag true --accept-at-ac false   --strand auto   --outfile esim4.txt
+```
+
+**Output:** Similar to `est2genome` but adds **strand**, **splice class counts**, and an **exon table**.
+ — splice-aware EST ↔ genome alignment (semi‑global)
 ```bash
 emboss est2genome   --genome genome.fa   --est read.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --intron-min 20 --splice-bonus 5   --outfile est2genome.txt
 ```
@@ -122,4 +146,4 @@ let n = needle("GATTACA", "GCATGCU", &NeedleParams{ matrix: WaterMatrix::Dna{ ma
 MIT OR Apache‑2.0
 
 ## Version
-**v0.1.15** (2025‑10‑23)
+**v0.1.20** (2025‑10‑23)
