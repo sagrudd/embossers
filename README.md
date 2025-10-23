@@ -55,7 +55,18 @@ emboss complex --sequence seqs.fa --sim 50 --freq --outfile complex.tsv
 
 ---
 
-### `water` — Smith–Waterman local alignment
+### `water`
+---
+
+### `matcher` — Waterman–Eggert local alignments (multiple)
+Find the **top-k non-overlapping local alignments** between two sequences using an
+affine‑gap Smith–Waterman with **declumping** (Waterman–Eggert).
+
+```bash
+emboss matcher   --asequence a.fa   --bsequence b.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --alternatives 5   --minscore 1   --outfile matcher.txt
+```
+**Output:** a human-readable report with one block per local alignment: score, ranges, identity/gaps, CIGAR, and 60‑column alignment blocks.
+ — Smith–Waterman local alignment
 ```bash
 emboss water   --asequence a.fa   --bsequence b.fa   --matrix blosum62   --gapopen 10.0 --gapextend 0.5   --outfile water.txt
 
@@ -146,4 +157,4 @@ let n = needle("GATTACA", "GCATGCU", &NeedleParams{ matrix: WaterMatrix::Dna{ ma
 MIT OR Apache‑2.0
 
 ## Version
-**v0.1.20** (2025‑10‑23)
+**v0.1.21** (2025‑10‑23)

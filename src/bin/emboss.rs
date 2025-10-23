@@ -32,6 +32,8 @@ enum Command {
     Stretcher(stretcher_cmd::StretcherCmd),
     /// SIM4-like spliced EST→genome alignment. EMBOSS `esim4`.
     Esim4(esim4_cmd::Esim4Cmd),
+    /// Waterman–Eggert local alignments (EMBOSS `matcher`).
+    Matcher(matcher_cmd::MatcherCmd),
 }
 
 #[path = "emboss/complex_cmd.rs"] mod complex_cmd;
@@ -41,6 +43,7 @@ enum Command {
 #[path = "emboss/needleall_cmd.rs"] mod needleall_cmd;
 #[path = "emboss/stretcher_cmd.rs"] mod stretcher_cmd;
 #[path = "emboss/esim4_cmd.rs"] mod esim4_cmd;
+#[path = "emboss/matcher_cmd.rs"] mod matcher_cmd;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -52,5 +55,6 @@ fn main() -> Result<()> {
         Command::Needleall(cmd) => needleall_cmd::run(cmd),
         Command::Stretcher(cmd) => stretcher_cmd::run(cmd),
         Command::Esim4(cmd) => esim4_cmd::run(cmd),
+        Command::Matcher(cmd) => matcher_cmd::run(cmd),
     }
 }

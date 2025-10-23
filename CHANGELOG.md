@@ -62,3 +62,7 @@
 ### Fixed
 - `stretcher`: restored missing fallback `NeedleParams` variable (`np`) used when problem size is small.
 - `esim4`: renamed splice enum variants to UpperCamelCase (`GtAg`, `GcAg`, `AtAc`) and updated matches to silence warnings.
+
+## [0.1.21] - 2025-10-23
+### Added
+- **matcher**: Waterman–Eggert-style local alignments (declumped), returning the top `--alternatives` non-overlapping local alignments. Library API and CLI subcommand `emboss matcher`.

@@ -31,6 +31,7 @@ pub mod stretcher;
 pub mod est2genome;
 pub mod needleall;
 pub mod esim4;
+pub mod matcher;
 
 // Re-export the public API for ergonomic access.
 pub use common::{EmbossersError, FastaRecord, parse_fasta, WaterMatrix};
@@ -47,3 +48,6 @@ pub use stretcher::{StretcherParams, StretcherAlignment, stretcher};
 
 // esim4 exports
 pub use esim4::{Esim4Params, Esim4Alignment, Exon, StrandMode, SpliceClass, esim4};
+
+// matcher exports
+pub use matcher::{MatcherParams, MatcherHit, matcher};
