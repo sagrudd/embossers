@@ -26,3 +26,7 @@
 ## [0.1.12] - 2025-10-23
 ### Fixed
 - Escaped/adjusted doc examples in `src/common.rs` to avoid unescaped quotes/newline escapes that some compilers interpret during attribute expansion.
+
+## [0.1.13] - 2025-10-23
+### Added
+- **est2genome**: splice-aware EST↔genome alignment (semi-global on genome) with intron detection and canonical `GT-AG` annotation. Available in library and CLI.

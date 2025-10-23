@@ -71,6 +71,15 @@ emboss water --asequence a.fa --bsequence b.fa --matrix dna --match-score 2 --mi
 ---
 
 ### `needle` — Needleman–Wunsch global alignment
+---
+
+### `est2genome` — splice-aware EST ↔ genome alignment (semi‑global)
+```bash
+emboss est2genome   --genome genome.fa   --est read.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --intron-min 20 --splice-bonus 5   --outfile est2genome.txt
+```
+
+**Output:** human-readable alignment file with score, identity/gaps, CIGAR (using `N` for introns), and an intron table with genomic coordinates and canonical `GT-AG` flags.
+
 ```bash
 emboss needle   --asequence a.fa   --bsequence b.fa   --matrix dna --match-score 1 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --outfile needle.txt
 
@@ -101,4 +110,4 @@ let n = needle("GATTACA", "GCATGCU", &NeedleParams{ matrix: WaterMatrix::Dna{ ma
 MIT OR Apache‑2.0
 
 ## Version
-**v0.1.12** (2025‑10‑23)
+**v0.1.13** (2025‑10‑23)

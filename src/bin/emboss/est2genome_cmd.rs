@@ -1,0 +1,108 @@
+//! CLI subcommand implementation. Use via `emboss est2genome`.
+use std::fs::File;
+use std::io::Read;
+use std::path::PathBuf;
+use anyhow::{Context, Result};
+use clap::{Args, ValueEnum};
+use embossers::*;
+
+/// Options for the `est2genome` subcommand.
+#[derive(Debug, Args)]
+pub struct Est2GenomeCmd {
+    /// Genomic DNA FASTA file (first record used).
+    #[arg(long, value_name="FILE")]
+    pub genome: PathBuf,
+    /// EST/cDNA FASTA file (first record used).
+    #[arg(long, value_name="FILE")]
+    pub est: PathBuf,
+    /// Scoring matrix to use.
+    #[arg(long, value_enum, default_value_t=MatrixChoice::Dna)]
+    pub matrix: MatrixChoice,
+    /// DNA match score (when --matrix dna).
+    #[arg(long, default_value_t=2)]
+    pub match_score: i32,
+    /// DNA mismatch penalty (negative, when --matrix dna).
+    #[arg(long, default_value_t=-1)]
+    pub mismatch: i32,
+    /// Gap open penalty (short indels).
+    #[arg(long, default_value_t=10.0)]
+    pub gapopen: f32,
+    /// Gap extension penalty (short indels).
+    #[arg(long, default_value_t=0.5)]
+    pub gapextend: f32,
+    /// Minimum genomic gap length to classify as intron.
+    #[arg(long, default_value_t=20)]
+    pub intron_min: usize,
+    /// Bonus applied to the score for each canonical GT-AG intron found.
+    #[arg(long, default_value_t=5)]
+    pub splice_bonus: i32,
+    /// Output file for a human-readable alignment.
+    #[arg(long, default_value="est2genome.txt")]
+    pub outfile: PathBuf,
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum MatrixChoice { Dna, Blosum62 }
+
+pub fn run(cmd: Est2GenomeCmd) -> Result<()> {
+    let read_first = |path: &PathBuf| -> Result<FastaRecord> {
+        let mut s = String::new();
+        File::open(path).with_context(|| format!("open FASTA: {}", path.display()))?.read_to_string(&mut s)?;
+        let recs = parse_fasta(&s);
+        recs.into_iter().next().ok_or_else(|| anyhow::anyhow!("no FASTA records in {}", path.display()))
+    };
+    let g = read_first(&cmd.genome)?;
+    let e = read_first(&cmd.est)?;
+
+    let matrix = match cmd.matrix {
+        MatrixChoice::Dna => WaterMatrix::Dna{ match_score: cmd.match_score, mismatch: cmd.mismatch },
+        MatrixChoice::Blosum62 => WaterMatrix::Blosum62,
+    };
+    let params = Est2GenomeParams{
+        matrix,
+        gap_open: cmd.gapopen,
+        gap_extend: cmd.gapextend,
+        scale: 2.0,
+        intron_min: cmd.intron_min,
+        splice_bonus: cmd.splice_bonus,
+    };
+
+    let aln = est2genome(&g.seq, &e.seq, &params)?;
+
+    // Write pretty output
+    let mut f = std::fs::File::create(&cmd.outfile).with_context(|| format!("create {}", cmd.outfile.display()))?;
+    use std::io::Write;
+    writeln!(f, "# EMBOSS-like EST2GENOME (Rust) result")?;
+    writeln!(f, "# Genome: {} (len {})", g.id, g.seq.len())?;
+    writeln!(f, "# EST:    {} (len {})", e.id, e.seq.len())?;
+    writeln!(f, "Score: {}", aln.score)?;
+    writeln!(f, "Identity: {:.2}%   Gaps: {:.2}%", aln.pct_identity, aln.pct_gaps)?;
+    writeln!(f, "CIGAR: {}", aln.cigar)?;
+    if aln.introns.is_empty() {
+        writeln!(f, "Introns: 0")?;
+    } else {
+        writeln!(f, "Introns: {}", aln.introns.len())?;
+        for (k, intr) in aln.introns.iter().enumerate() {
+            writeln!(f, "  {}: {}..{}  canonical: {}", k+1, intr.start, intr.end, if intr.canonical_gt_ag { "yes" } else { "no" })?;
+        }
+    }
+    writeln!(f, "")?;
+    // Blocked alignment printing (60 cols)
+    let a_chars: Vec<char> = aln.align_a.chars().collect();
+    let b_chars: Vec<char> = aln.align_b.chars().collect();
+    let mut i = 0usize;
+    while i < a_chars.len() {
+        let end = (i+60).min(a_chars.len());
+        let a_block: String = a_chars[i..end].iter().collect();
+        let b_block: String = b_chars[i..end].iter().collect();
+        let mid: String = a_chars[i..end].iter().zip(b_chars[i..end].iter()).map(|(x,y)| {
+            if *x=='-' || *y=='-' { ' ' } else if x.eq_ignore_ascii_case(y) { '|' } else { '.' }
+        }).collect();
+        writeln!(f, "G {}", a_block)?;
+        writeln!(f, "  {}", mid)?;
+        writeln!(f, "E {}", b_block)?;
+        writeln!(f, "")?;
+        i = end;
+    }
+    Ok(())
+}
