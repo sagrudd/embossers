@@ -16,6 +16,19 @@
 //! assert!(hits.len() >= 1);
 //! ```
 //!
+//! ---
+//! ## Details
+//! - **Complexity:** Algorithms are O(n·m) for dynamic-programming steps; seed‑and‑extend
+//!   approaches are subquadratic in practice by restricting extension windows.
+//! - **Scoring:** DNA uses match/mismatch integers; proteins use BLOSUM62 via
+//!   [`WaterMatrix::Blosum62`](crate::common::WaterMatrix). Gap penalties are affine
+//!   with separate open/extend and optional integer scaling for fractional costs.
+//! - **I/O:** FASTA parsing is minimal and permissive. Alignment text outputs are
+//!   human‑readable and designed to resemble EMBOSS reports.
+//! - **Parity:** Output formats aim to be familiar but are not byte‑identical to EMBOSS.
+//!   Command‑line flags are close analogues. See README for examples and caveats.
+//!
+
 use std::collections::{HashMap, HashSet};
 use crate::common::{EmbossersError, WaterMatrix};
 use crate::matcher::{matcher, MatcherParams, MatcherHit};

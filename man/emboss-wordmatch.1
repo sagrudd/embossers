@@ -1,0 +1,21 @@
+.TH EMBOSS-WORDMATCH 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-wordmatch \- Exact match regions ≥ K between two sequences; optional GFF3 output.
+.SH SYNOPSIS
+emboss wordmatch --asequence a.fa --bsequence b.fa [--word K] [--outfile FILE] [--gff-a FILE] [--gff-b FILE]
+
+.SH DESCRIPTION
+Exact match regions ≥ K between two sequences; optional GFF3 output.
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--word\fR K
+.TP
+\fB--outfile\fR FILE  \fB--gff-a\fR FILE  \fB--gff-b\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss wordmatch --asequence a.fa --bsequence b.fa --word 10 --outfile wordmatch.txt
+.SH SEE ALSO
+emboss(1)

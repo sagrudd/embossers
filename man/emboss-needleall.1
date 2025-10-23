@@ -1,0 +1,23 @@
+.TH EMBOSS-NEEDLEALL 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-needleall \- All-to-all global alignment between sets (first records or multi‑FASTA).
+.SH SYNOPSIS
+emboss needleall --asequence A.fa --bsequence B.fa [--matrix dna|blosum62] [--gapopen N] [--gapextend N] [--outfile FILE]
+
+.SH DESCRIPTION
+All-to-all global alignment between sets (first records or multi‑FASTA).
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss needleall --asequence setA.fa --bsequence setB.fa --matrix dna --outfile needleall.txt
+.SH SEE ALSO
+emboss(1)

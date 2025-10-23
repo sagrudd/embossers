@@ -1,0 +1,29 @@
+.TH EMBOSS-MATCHER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-matcher \- Waterman–Eggert declumped local alignments; returns top K non‑overlapping hits.
+.SH SYNOPSIS
+emboss matcher \fB--asequence\fR FILE   \fB--bsequence\fR FILE
+[--matrix dna|blosum62] [--match-score N --mismatch -N] \fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+[--alternatives K] [--minscore N] [--outfile FILE]
+
+.SH DESCRIPTION
+Waterman–Eggert declumped local alignments; returns top K non‑overlapping hits.
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--match-score\fR N  \fB--mismatch\fR -N
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--alternatives\fR K  \fB--minscore\fR N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss matcher --asequence a.fa --bsequence b.fa --alternatives 5 --outfile matcher.txt
+.SH SEE ALSO
+emboss(1)

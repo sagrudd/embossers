@@ -1,3 +1,30 @@
+## Subcommand digest
+
+| Command | Summary |
+|---|---|
+| `complex` | Compute sequence complexity metrics (EMBOSS complex). |
+| `water` | Smith–Waterman local alignment of two sequences. |
+| `needle` | Needleman–Wunsch global alignment of two sequences. |
+| `needleall` | All-to-all global alignments for two sets. |
+| `stretcher` | Global alignment with linear space (Myers–Miller). |
+| `esim4` | Splice-aware EST vs genome alignment (approximation). |
+| `est2genome` | Align cDNA/EST to genomic DNA (introns allowed). |
+| `matcher` | Waterman–Eggert declumped local alignments (top‑K). |
+| `seqmatchall` | All‑vs‑all declumped local alignments in a set. |
+| `supermatcher` | Seed‑and‑extend local alignment (fast). |
+| `wordfinder` | Query vs set using `supermatcher`. |
+| `wordmatch` | Exact match regions ≥ k. |
+| `seqalign` | Extend an alignment by consensus-guided global alignment. |
+| `domainalign` | Progressive consensus‑guided MSA. |
+| `domainrep` | Within‑sequence repeat finder (k‑mer based). |
+| `oalistat` | Alignment statistics (nseqs, cols, %gap, identity). |
+| `extractalign` | Extract alignment columns by ranges. |
+| `cons` | Majority‑rule consensus from an alignment. |
+| `consambig` | DNA IUPAC ambiguity consensus. |
+| `merger` | Merge two DNA sequences by overlap (IUPAC over conflicts). |
+| `megamerger` | Merge two protein sequences by overlap ('X' for conflicts). |
+
+> See **man pages** in `man/` or run `emboss <cmd> --help`.
 # embossers
 
 EMBOSS-inspired bioinformatics utilities in Rust. This crate provides a library **and** a CLI binary **`emboss`** implementing:
@@ -209,4 +236,27 @@ emboss merger   --asequence a.fa --bsequence b.fa   --matrix dna --match-score 2
 
 # Protein
 emboss megamerger   --asequence a.fa --bsequence b.fa   --matrix blosum62   --gapopen 10.0 --gapextend 0.5   --outfile merged.fa --id merged_prot
+```
+
+---
+
+## Building
+Requirements: Rust stable (1.70+ recommended).
+
+```bash
+# build
+cargo build --release
+
+# run help
+cargo run --bin emboss -- --help
+
+# test a subcommand
+cargo run --bin emboss -- water --help
+```
+
+### Man pages
+Prebuilt roff pages are under `man/`. To preview on macOS/Linux:
+```bash
+man -l man/emboss.1
+man -l man/emboss-water.1
 ```

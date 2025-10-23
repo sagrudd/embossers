@@ -1,0 +1,22 @@
+.TH EMBOSS-SUPERMATCHER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-supermatcher \- Seed‑and‑extend local alignment (k‑mer seeding + SW windowed extension).
+.SH SYNOPSIS
+emboss supermatcher \fB--asequence\fR FILE   \fB--bsequence\fR FILE
+[--wordlen K] [--flank N] [--minscore N] [--outfile FILE]
+
+.SH DESCRIPTION
+Seed‑and‑extend local alignment (k‑mer seeding + SW windowed extension).
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--wordlen\fR K  \fB--flank\fR N  \fB--minscore\fR N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss supermatcher --asequence a.fa --bsequence b.fa --wordlen 11 --flank 200 --outfile supermatcher.txt
+.SH SEE ALSO
+emboss(1)

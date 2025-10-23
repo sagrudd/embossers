@@ -1,0 +1,21 @@
+.TH EMBOSS-DOMAINREP 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-domainrep \- Within‑sequence repeat finder by k‑mer seeding + maximal extension.
+.SH SYNOPSIS
+emboss domainrep --sequence seq.fa [--wordlen K] [--minlen N] [--outfile FILE] [--gff FILE]
+
+.SH DESCRIPTION
+Within‑sequence repeat finder by k‑mer seeding + maximal extension.
+.SH OPTIONS
+.TP
+\fB--sequence\fR FILE
+.TP
+\fB--wordlen\fR K  \fB--minlen\fR N
+.TP
+\fB--outfile\fR FILE  \fB--gff\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss domainrep --sequence protein.fa --wordlen 3 --minlen 12 --outfile domainrep.tsv
+.SH SEE ALSO
+emboss(1)

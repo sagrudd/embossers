@@ -1,0 +1,21 @@
+.TH EMBOSS-WORDFINDER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-wordfinder \- Query vs set seed‑and‑extend using `supermatcher` for each target.
+.SH SYNOPSIS
+emboss wordfinder --query q.fa --targets db.fa [--wordlen K] [--flank N] [--minscore N] [--outfile FILE]
+
+.SH DESCRIPTION
+Query vs set seed‑and‑extend using `supermatcher` for each target.
+.SH OPTIONS
+.TP
+\fB--query\fR FILE   \fB--targets\fR FILE
+.TP
+\fB--wordlen\fR K  \fB--flank\fR N  \fB--minscore\fR N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss wordfinder --query q.fa --targets db.fa --wordlen 11 --flank 200 --outfile wordfinder.txt
+.SH SEE ALSO
+emboss(1)

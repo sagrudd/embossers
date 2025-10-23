@@ -1,0 +1,27 @@
+.TH EMBOSS-SEQMATCHALL 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-seqmatchall \- All‑vs‑all declumped local alignments across a multi‑FASTA set.
+.SH SYNOPSIS
+emboss seqmatchall --seqs set.fa [--matrix dna|blosum62] [--match-score N --mismatch -N] [--gapopen N] [--gapextend N] [--alternatives K] [--minscore N] [--include-self] [--summary FILE] [--outdir DIR]
+
+.SH DESCRIPTION
+All‑vs‑all declumped local alignments across a multi‑FASTA set.
+.SH OPTIONS
+.TP
+\fB--seqs\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--match-score\fR N  \fB--mismatch\fR -N
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--alternatives\fR K  \fB--minscore\fR N  \fB--include-self\fR
+.TP
+\fB--summary\fR FILE  \fB--outdir\fR DIR
+
+.SH EXAMPLES
+.TP
+emboss seqmatchall --seqs set.fa --alternatives 1 --summary seqmatchall.tsv --outdir pairwise_top
+.SH SEE ALSO
+emboss(1)

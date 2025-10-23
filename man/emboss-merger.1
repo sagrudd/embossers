@@ -1,0 +1,25 @@
+.TH EMBOSS-MERGER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-merger \- Merge two DNA sequences by best local overlap; IUPAC codes for conflicts.
+.SH SYNOPSIS
+emboss merger \fB--asequence\fR FILE   \fB--bsequence\fR FILE
+[--matrix dna] [--match-score N --mismatch -N] \fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+[--minscore N] [--outfile FILE] [--id ID]
+
+.SH DESCRIPTION
+Merge two DNA sequences by best local overlap; IUPAC codes for conflicts.
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--matrix\fR dna  \fB--match-score\fR N  \fB--mismatch\fR -N
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--minscore\fR N  \fB--outfile\fR FILE  \fB--id\fR ID
+
+.SH EXAMPLES
+.TP
+emboss merger --asequence a.fa --bsequence b.fa --outfile merged.fa
+.SH SEE ALSO
+emboss(1)

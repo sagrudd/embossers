@@ -1,0 +1,25 @@
+.TH EMBOSS-STRETCHER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-stretcher \- Global alignment in linear space (Myers–Miller).
+.SH SYNOPSIS
+emboss stretcher \fB--asequence\fR FILE   \fB--bsequence\fR FILE
+\fB--matrix\fR dna|blosum62
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+[--outfile FILE]
+.SH DESCRIPTION
+Global alignment in linear space (Myers–Miller).
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss stretcher --asequence a.fa --bsequence b.fa --matrix dna --outfile stretcher.txt
+.SH SEE ALSO
+emboss(1)

@@ -99,3 +99,9 @@
 - **cons**: majority-rule consensus from an alignment.
 - **consambig**: DNA consensus using IUPAC ambiguity codes.
 - **merger/megamerger**: merge two sequences by local overlap (Waterman–Eggert) into a consensus sequence (DNA/protein).
+
+## [0.1.28] - 2025-10-23
+### Docs
+- Comprehensive rustdoc pass across modules; crate-level overview added.
+- README: subcommand digest + expanded usage and build instructions.
+- MAN pages generated for `emboss(1)` and all subcommands in `man/`.

@@ -1,0 +1,19 @@
+.TH EMBOSS-EXTRACTALIGN 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-extractalign \- Extract 1‑based inclusive alignment column ranges.
+.SH SYNOPSIS
+emboss extractalign --align aln.fa --range "START-END[,START-END...]" [--outfile FILE]
+
+.SH DESCRIPTION
+Extract 1‑based inclusive alignment column ranges.
+.SH OPTIONS
+.TP
+\fB--align\fR FILE  \fB--range\fR RANGES
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss extractalign --align aln.fa --range "5-80,120-150" --outfile extractalign.daf
+.SH SEE ALSO
+emboss(1)

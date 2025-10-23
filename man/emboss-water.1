@@ -1,0 +1,27 @@
+.TH EMBOSS-WATER 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-water \- Smith–Waterman local alignment with affine gaps. DNA uses match/mismatch; proteins use BLOSUM62.
+.SH SYNOPSIS
+emboss water \fB--asequence\fR FILE   \fB--bsequence\fR FILE
+\fB--matrix\fR dna|blosum62
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+[--match-score N --mismatch -N] [--outfile FILE]
+.SH DESCRIPTION
+Smith–Waterman local alignment with affine gaps. DNA uses match/mismatch; proteins use BLOSUM62.
+.SH OPTIONS
+.TP
+\fB--asequence\fR FILE   \fB--bsequence\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--match-score\fR N  \fB--mismatch\fR -N
+.TP
+\fB--outfile\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss water --asequence a.fa --bsequence b.fa --matrix dna --match-score 2 --mismatch -1 --gapopen 10 --gapextend 0.5 --outfile water.txt
+.SH SEE ALSO
+emboss(1)

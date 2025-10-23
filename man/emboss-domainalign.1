@@ -1,0 +1,25 @@
+.TH EMBOSS-DOMAINALIGN 1 "2025-10-23" "embossers 0.1.28" "User Commands"
+.SH NAME
+emboss-domainalign \- Progressive, consensus‑guided multiple alignment (pragmatic domalign).
+.SH SYNOPSIS
+emboss domainalign --seqs domains.fa [--matrix dna|blosum62] [--match-score N --mismatch -N] [--gapopen N] [--gapextend N] [--outdaf FILE]
+
+.SH DESCRIPTION
+Progressive, consensus‑guided multiple alignment (pragmatic domalign).
+.SH OPTIONS
+.TP
+\fB--seqs\fR FILE
+.TP
+\fB--matrix\fR dna|blosum62
+.TP
+\fB--match-score\fR N  \fB--mismatch\fR -N
+.TP
+\fB--gapopen\fR N.N   \fB--gapextend\fR N.N
+.TP
+\fB--outdaf\fR FILE
+
+.SH EXAMPLES
+.TP
+emboss domainalign --seqs domains.fa --outdaf domainalign.daf
+.SH SEE ALSO
+emboss(1)
