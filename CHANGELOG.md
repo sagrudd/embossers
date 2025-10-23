@@ -1,22 +1,19 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-
-## [0.1.4] - 2025-10-22
+## [0.1.9] - 2025-10-23
 ### Fixed
-- Removed any stray characters at the start of `src/lib.rs`.
-- Corrected doc comments to use outer `///` only within items.
-- Removed unused `rand::prelude` import to avoid warning.
-- Silenced `pt` unused variable by naming it `_pt`.
+- Corrected CLI layout: subcommand files moved under `src/bin/emboss/` as modules of the `emboss` binary to avoid extra bins and missing `main` errors.
+- Removed an unused import warning in `complex.rs`.
 
-## [0.1.3] - 2025-10-22
-### Fixed
-- Removed stray character at start of `src/lib.rs`.
-- Switched accidental inner doc comments to outer `///` lines.
-- Added `rand` dependency; fixed imports.
-
-## [0.1.2] - 2025-10-22
+## [0.1.8] - 2025-10-23
 ### Added
-- Feature-complete `emboss complex` CLI implemented with Clap v4.
-- Over-documented library (`rustdoc`) and examples.
-- `compute_complexity_multi` supporting EMBOSS `-omnia` behaviour.
+- **`needle`** (Needleman–Wunsch global alignment, affine gaps) implemented in library and CLI.
+- Split all algorithms and CLI subcommands into their own Rust files for maintainability.
+
+## [0.1.7] - 2025-10-23
+### Changed
+- Refreshed implementation; removed all stubs. Added CLI alias `waters` for `water`.
+
+## [0.1.10] - 2025-10-23
+### Fixed
+- Adjusted `src/bin/emboss.rs` to use `#[path = "emboss/..." ]` module attributes so subcommands in `src/bin/emboss/` compile correctly.
