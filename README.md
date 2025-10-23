@@ -73,6 +73,18 @@ emboss water --asequence a.fa --bsequence b.fa --matrix dna --match-score 2 --mi
 ### `needle` — Needleman–Wunsch global alignment
 ---
 
+### `needleall` — many-to-many global alignments
+Run Needleman–Wunsch alignments for **every pair** across two multi‑FASTA sets.
+Outputs a summary TSV and (optionally) per‑pair alignment files.
+
+```bash
+emboss needleall   --aseqs setA.fa   --bseqs setB.fa   --matrix dna --match-score 1 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --summary needleall.tsv   --outdir pairwise_alignments
+```
+
+**Summary TSV columns:** `a_id, b_id, score, pct_identity, pct_gaps, cigar_len`
+
+---
+
 ### `est2genome` — splice-aware EST ↔ genome alignment (semi‑global)
 ```bash
 emboss est2genome   --genome genome.fa   --est read.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --intron-min 20 --splice-bonus 5   --outfile est2genome.txt
@@ -110,4 +122,4 @@ let n = needle("GATTACA", "GCATGCU", &NeedleParams{ matrix: WaterMatrix::Dna{ ma
 MIT OR Apache‑2.0
 
 ## Version
-**v0.1.13** (2025‑10‑23)
+**v0.1.15** (2025‑10‑23)

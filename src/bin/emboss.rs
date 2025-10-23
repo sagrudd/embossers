@@ -26,12 +26,15 @@ enum Command {
     Needle(needle_cmd::NeedleCmd),
     /// EST→genome spliced alignment (EMBOSS `est2genome`).
     Est2genome(est2genome_cmd::Est2GenomeCmd),
+    /// Many-to-many global alignments (EMBOSS `needleall`).
+    Needleall(needleall_cmd::NeedleAllCmd),
 }
 
 #[path = "emboss/complex_cmd.rs"] mod complex_cmd;
 #[path = "emboss/water_cmd.rs"] mod water_cmd;
 #[path = "emboss/needle_cmd.rs"] mod needle_cmd;
 #[path = "emboss/est2genome_cmd.rs"] mod est2genome_cmd;
+#[path = "emboss/needleall_cmd.rs"] mod needleall_cmd;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -40,5 +43,6 @@ fn main() -> Result<()> {
         Command::Water(cmd) => water_cmd::run(cmd),
         Command::Needle(cmd) => needle_cmd::run(cmd),
         Command::Est2genome(cmd) => est2genome_cmd::run(cmd),
+        Command::Needleall(cmd) => needleall_cmd::run(cmd),
     }
 }

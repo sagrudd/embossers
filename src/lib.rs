@@ -28,6 +28,7 @@ pub mod complex;
 pub mod water;
 pub mod needle;
 pub mod est2genome;
+pub mod needleall;
 
 // Re-export the public API for ergonomic access.
 pub use common::{EmbossersError, FastaRecord, parse_fasta, WaterMatrix};
@@ -35,3 +36,6 @@ pub use complex::{ComplexOptions, UjRow, compute_complexity, compute_complexity_
 pub use water::{WaterParams, WaterAlignment, water};
 pub use needle::{NeedleParams, NeedleAlignment, needle};
 pub use est2genome::{Est2GenomeParams, Est2GenomeAlignment, est2genome};
+
+// needleall exports
+pub use needleall::{needleall_pairs, NeedleAllResult};

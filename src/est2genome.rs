@@ -211,7 +211,7 @@ fn push_cigar(ops: &mut Vec<(char,usize)>, op: char, k: usize) {
 fn build_spliced_cigar_and_introns(
     genome: &[char],
     aln_a: &[char],
-    aln_b: &[char],
+    _aln_b: &[char],
     cigar_ops: &[(char,usize)],
     intron_min: usize,
     splice_bonus: i32,

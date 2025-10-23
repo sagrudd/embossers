@@ -30,3 +30,12 @@
 ## [0.1.13] - 2025-10-23
 ### Added
 - **est2genome**: splice-aware EST↔genome alignment (semi-global on genome) with intron detection and canonical `GT-AG` annotation. Available in library and CLI.
+
+## [0.1.14] - 2025-10-23
+### Added
+- **needleall**: many-to-many Needleman–Wunsch (global) alignments across two FASTA sets, summary TSV plus optional per-pair alignment files. CLI subcommand `emboss needleall`.
+
+## [0.1.15] - 2025-10-23
+### Fixed
+- `needleall` CLI: corrected `sanitize()` (replaced Pythonic `in` with `matches!`).
+- `est2genome`: silenced an unused parameter warning by prefixing with `_`.
