@@ -92,3 +92,10 @@
 - **domainalign**: progressive, consensus-guided multiple alignment (EMBASSY domalign-like), via iterative global alignment to consensus.
 - **domainrep**: within-sequence repeat finder using k-mer seeding and maximal right extension; reports repeat blocks and optional GFF.
 - **oalistat**: alignment statistics for gapped FASTA / simple alignment files (sequences, columns, %gap, pairwise identity, conserved columns).
+
+## [0.1.27] - 2025-10-23
+### Added
+- **extractalign**: extract column ranges from a gapped alignment (FASTA/simple).
+- **cons**: majority-rule consensus from an alignment.
+- **consambig**: DNA consensus using IUPAC ambiguity codes.
+- **merger/megamerger**: merge two sequences by local overlap (Waterman–Eggert) into a consensus sequence (DNA/protein).

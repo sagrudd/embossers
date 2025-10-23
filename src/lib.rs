@@ -80,3 +80,14 @@ pub use oalistat::{OaStats, oalistat};
 pub use domainrep::{DomainRepParams, RepeatBlock, domainrep};
 // domainalign exports
 pub use domainalign::{DomainAlignParams, domainalign};
+
+pub mod extractalign;
+pub mod cons;
+pub mod merger;
+
+// extractalign exports
+pub use extractalign::extractalign_ranges;
+// cons exports
+pub use cons::{consensus_majority, consensus_ambig_dna};
+// merger exports
+pub use merger::{MergeParams, MergeResult, merger, megamerger};

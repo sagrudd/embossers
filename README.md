@@ -170,3 +170,43 @@ MIT OR Apache‑2.0
 
 ## Version
 **v0.1.21** (2025‑10‑23)
+
+---
+
+### `extractalign` — extract alignment columns
+Extract one or more **1‑based** column ranges from a gapped alignment (FASTA or simple format).
+
+```bash
+emboss extractalign   --align alignment.fa   --range "5-80,120-150"   --outfile extractalign.daf
+```
+
+---
+
+### `cons` — majority‑rule consensus
+Compute a consensus sequence from an alignment. Below the `--threshold`, outputs `N` (DNA) or `X` (protein).
+
+```bash
+emboss cons   --align alignment.fa   --type dna --threshold 0.6   --outfile consensus.fa --id consensus
+```
+
+---
+
+### `consambig` — DNA IUPAC consensus
+Emit IUPAC ambiguity codes representing **all observed** nucleotides at each column.
+
+```bash
+emboss consambig   --align alignment.fa   --outfile consambig.fa --id consambig
+```
+
+---
+
+### `merger` / `megamerger` — merge two sequences by overlap
+Find the best **local** overlap and build a consensus over that region (DNA uses IUPAC; proteins use `X` on conflicts), then stitch flanks.
+
+```bash
+# DNA
+emboss merger   --asequence a.fa --bsequence b.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --outfile merged.fa --id merged
+
+# Protein
+emboss megamerger   --asequence a.fa --bsequence b.fa   --matrix blosum62   --gapopen 10.0 --gapextend 0.5   --outfile merged.fa --id merged_prot
+```

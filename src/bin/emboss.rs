@@ -50,6 +50,16 @@ enum Command {
     Domainrep(domainrep_cmd::DomainRepCmd),
     /// Alignment statistics (EMBASSY oalistat).
     Oalistat(oalistat_cmd::OaListatCmd),
+    /// Extract alignment columns (EMBOSS `extractalign`).
+    Extractalign(extractalign_cmd::ExtractAlignCmd),
+    /// Majority-rule consensus (EMBOSS `cons`).
+    Cons(cons_cmd::ConsCmd),
+    /// DNA IUPAC consensus (EMBOSS `consambig`).
+    Consambig(consambig_cmd::ConsAmbigCmd),
+    /// Merge two sequences by local overlap (EMBOSS `merger`).
+    Merger(merger_cmd::MergeCommon),
+    /// Merge two proteins by local overlap (EMBOSS `megamerger`).
+    Megamerger(merger_cmd::MergeCommon),
 }
 
 #[path = "emboss/complex_cmd.rs"] mod complex_cmd;
@@ -63,6 +73,10 @@ enum Command {
 #[path = "emboss/seqmatchall_cmd.rs"] mod seqmatchall_cmd;
 #[path = "emboss/seqalign_cmd.rs"] mod seqalign_cmd;
 #[path = "emboss/oalistat_cmd.rs"] mod oalistat_cmd;
+#[path = "emboss/merger_cmd.rs"] mod merger_cmd;
+#[path = "emboss/consambig_cmd.rs"] mod consambig_cmd;
+#[path = "emboss/cons_cmd.rs"] mod cons_cmd;
+#[path = "emboss/extractalign_cmd.rs"] mod extractalign_cmd;
 #[path = "emboss/domainrep_cmd.rs"] mod domainrep_cmd;
 #[path = "emboss/domainalign_cmd.rs"] mod domainalign_cmd;
 #[path = "emboss/wordmatch_cmd.rs"] mod wordmatch_cmd;
@@ -88,5 +102,10 @@ fn main() -> Result<()> {
         Command::Domainalign(cmd) => domainalign_cmd::run(cmd),
         Command::Domainrep(cmd) => domainrep_cmd::run(cmd),
         Command::Oalistat(cmd) => oalistat_cmd::run(cmd),
+        Command::Extractalign(cmd) => extractalign_cmd::run(cmd),
+        Command::Cons(cmd) => cons_cmd::run(cmd),
+        Command::Consambig(cmd) => consambig_cmd::run(cmd),
+        Command::Merger(cmd) => merger_cmd::run_merger(cmd, false),
+        Command::Megamerger(cmd) => merger_cmd::run_merger(cmd, true),
     }
 }
