@@ -58,7 +58,19 @@ emboss complex --sequence seqs.fa --sim 50 --freq --outfile complex.tsv
 ### `water`
 ---
 
-### `matcher` — Waterman–Eggert local alignments (multiple)
+### `matcher`
+---
+
+### `seqmatchall` — all-vs-all Waterman–Eggert local alignments
+Run declumped local alignments for **every unordered pair** in a multi‑FASTA set.
+Writes a summary TSV and, optionally, per-pair top alignment files.
+
+```bash
+emboss seqmatchall   --seqs set.fa   --matrix dna --match-score 2 --mismatch -1   --gapopen 10.0 --gapextend 0.5   --alternatives 1   --minscore 1   --summary seqmatchall.tsv   --outdir pairwise_top
+```
+
+**Summary TSV columns:** `a_id, b_id, score, pct_identity, pct_gaps, n_hits, top_cigar_len`
+ — Waterman–Eggert local alignments (multiple)
 Find the **top-k non-overlapping local alignments** between two sequences using an
 affine‑gap Smith–Waterman with **declumping** (Waterman–Eggert).
 

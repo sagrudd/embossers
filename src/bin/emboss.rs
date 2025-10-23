@@ -34,6 +34,8 @@ enum Command {
     Esim4(esim4_cmd::Esim4Cmd),
     /// Waterman–Eggert local alignments (EMBOSS `matcher`).
     Matcher(matcher_cmd::MatcherCmd),
+    /// All-vs-all Waterman–Eggert local alignments (EMBOSS `seqmatchall`).
+    Seqmatchall(seqmatchall_cmd::SeqMatchAllCmd),
 }
 
 #[path = "emboss/complex_cmd.rs"] mod complex_cmd;
@@ -44,6 +46,7 @@ enum Command {
 #[path = "emboss/stretcher_cmd.rs"] mod stretcher_cmd;
 #[path = "emboss/esim4_cmd.rs"] mod esim4_cmd;
 #[path = "emboss/matcher_cmd.rs"] mod matcher_cmd;
+#[path = "emboss/seqmatchall_cmd.rs"] mod seqmatchall_cmd;
 
 fn main() -> Result<()> {
     let cli = Cli::parse();
@@ -56,5 +59,6 @@ fn main() -> Result<()> {
         Command::Stretcher(cmd) => stretcher_cmd::run(cmd),
         Command::Esim4(cmd) => esim4_cmd::run(cmd),
         Command::Matcher(cmd) => matcher_cmd::run(cmd),
+        Command::Seqmatchall(cmd) => seqmatchall_cmd::run(cmd),
     }
 }

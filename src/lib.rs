@@ -32,6 +32,7 @@ pub mod est2genome;
 pub mod needleall;
 pub mod esim4;
 pub mod matcher;
+pub mod seqmatchall;
 
 // Re-export the public API for ergonomic access.
 pub use common::{EmbossersError, FastaRecord, parse_fasta, WaterMatrix};
@@ -51,3 +52,6 @@ pub use esim4::{Esim4Params, Esim4Alignment, Exon, StrandMode, SpliceClass, esim
 
 // matcher exports
 pub use matcher::{MatcherParams, MatcherHit, matcher};
+
+// seqmatchall exports
+pub use seqmatchall::{SeqMatchAllParams, SeqMatchAllEntry, seqmatchall};

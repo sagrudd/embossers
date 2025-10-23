@@ -154,12 +154,10 @@ pub fn matcher(a: &str, b: &str, params: &MatcherParams) -> Result<Vec<MatcherHi
                 break;
             }
         }
-        let a_end = i; // actually these are index after consumption; will recompute below
         aln_a.reverse(); aln_b.reverse();
         cigar_ops.reverse();
 
         // Coordinates: find start/end in original strings by counting non-gaps in aln_a/aln_b
-        let mut a_pos = (bi, 0usize); // we'll reconstruct below properly
         let (a_start, a_end, b_start, b_end) = compute_local_coords(&aln_a, &aln_b, bi, bj, &a_chars, &b_chars);
 
         // Compute stats
@@ -197,11 +195,11 @@ fn push_cigar(ops: &mut Vec<(char,usize)>, op: char, k: usize) {
 fn compute_local_coords(
     aln_a: &[char], aln_b: &[char],
     end_i: usize, end_j: usize,
-    a: &[char], b: &[char],
+    _a: &[char], _b: &[char],
 ) -> (usize, usize, usize, usize) {
     // Walk backwards from (end_i, end_j) by counting consumed residues during traceback length.
-    let mut i = end_i;
-    let mut j = end_j;
+    let _i = end_i;
+    let _j = end_j;
     // Count residues consumed in the traceback
     let consumed_a = aln_a.iter().filter(|&&c| c!='-').count();
     let consumed_b = aln_b.iter().filter(|&&c| c!='-').count();

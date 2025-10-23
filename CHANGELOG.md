@@ -66,3 +66,12 @@
 ## [0.1.21] - 2025-10-23
 ### Added
 - **matcher**: Waterman–Eggert-style local alignments (declumped), returning the top `--alternatives` non-overlapping local alignments. Library API and CLI subcommand `emboss matcher`.
+
+## [0.1.22] - 2025-10-23
+### Added
+- **seqmatchall**: all-vs-all Waterman–Eggert local alignments across a multi-FASTA set, built on the `matcher` engine. CLI subcommand `emboss seqmatchall` writes a summary TSV and optional per-pair alignment files.
+
+## [0.1.23] - 2025-10-23
+### Fixed
+- `seqmatchall` CLI: avoid moving `MatcherParams` by cloning into `SeqMatchAllParams` so it can be reused for per-pair files.
+- `matcher`: removed stray unused variables and silenced minor warnings in local coordinate computation.
